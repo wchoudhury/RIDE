@@ -11,7 +11,7 @@ import numpy as np
 
 # Import CPM Python bindings
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
-import cpm_py as cpm
+import cpm
 from visualizer import DonkeycarVisualizer
 
 # Import Donkeycar if available
@@ -58,7 +58,7 @@ class DonkeycarDDSBridge:
         else:
             self.dk_vehicle = None
             cpm.Logging.Instance().write(cpm.LogLevel.Warn, 
-                                      "Donkeycar not available, running in simulation mode")
+                "Donkeycar not available, running in simulation mode")
         
         # Initialize vehicle state
         self.steering = 0.0
@@ -271,19 +271,17 @@ class DonkeycarDDSBridge:
         self.last_update_time = current_time
     
     def _state_update_loop(self):
-        """Background thread to publish vehicle state updates"""
         while self.running:
             try:
-                # Create and publish vehicle state
                 self._publish_vehicle_state()
-                
-                # Sleep according to the control frequency
-                time.sleep(1.0 / self.config['DRIVE_LOOP_HZ'])
-                
+                # Sleep shorter to check running flag more often
+                for _ in range(10):
+                    if not self.running:
+                        break
+                    time.sleep(0.1)  # total 1 second in 0.1s increments
             except Exception as e:
-                cpm.Logging.Instance().write(cpm.LogLevel.Error, 
-                                          f"Error in state update loop: {str(e)}")
-                time.sleep(1.0)  # Sleep longer on error
+                cpm.Logging.Instance().write(cpm.LogLevel.Error, f"Error in state update loop: {str(e)}")
+                time.sleep(1.0)
     
     def _visualization_loop(self):
         """Background thread to handle visualization updates"""
@@ -375,20 +373,22 @@ class DonkeycarDDSBridge:
     def stop(self):
         """Stop the bridge"""
         self.running = False
-        
+
         # Stop the Donkeycar vehicle if available
         if DONKEYCAR_AVAILABLE and self.dk_vehicle:
             self.dk_vehicle.stop()
-        
+            self.dk_vehicle.profiler.report()
+
         # Wait for the threads to finish
         if self.update_thread.is_alive():
             self.update_thread.join(timeout=2.0)
-            
+
         if self.vis_thread.is_alive():
             self.vis_thread.join(timeout=2.0)
-        
-        cpm.Logging.Instance().write(cpm.LogLevel.Info, 
-                                  f"Donkeycar Bridge for vehicle {self.vehicle_id} stopped")
+
+        cpm.Logging.Instance().write(cpm.LogLevel.Info,
+            f"Donkeycar Bridge for vehicle {self.vehicle_id} stopped")
+
 
 
 def main():

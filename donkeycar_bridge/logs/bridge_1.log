@@ -18,7 +18,7 @@ Mock: Setting ID to donkeycar_vis_1
 Mock: Initializing CPM with ID donkeycar_vis_1
 Mock: Setting ID to donkeycar_vis_1
 Traceback (most recent call last):
-  File "/home/icarus/school/RIDE-project/donkeycar_bridge/src/visualizer.py", line 30, in __init__
+  File "/Users/wchoudhury/Desktop/RIDE-project/donkeycar_bridge/src/visualizer.py", line 30, in __init__
     cpm.Logging.Instance().set_min_level(cpm.LogLevel.Warn)
     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 AttributeError: 'Logging' object has no attribute 'set_min_level'
@@ -26,15 +26,15 @@ AttributeError: 'Logging' object has no attribute 'set_min_level'
 During handling of the above exception, another exception occurred:
 
 Traceback (most recent call last):
-  File "/home/icarus/school/RIDE-project/donkeycar_bridge/src/dds_bridge.py", line 418, in <module>
+  File "/Users/wchoudhury/Desktop/RIDE-project/donkeycar_bridge/src/dds_bridge.py", line 418, in <module>
     main()
-  File "/home/icarus/school/RIDE-project/donkeycar_bridge/src/dds_bridge.py", line 403, in main
+  File "/Users/wchoudhury/Desktop/RIDE-project/donkeycar_bridge/src/dds_bridge.py", line 403, in main
     bridge = DonkeycarDDSBridge(args.vehicle_id)
              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/home/icarus/school/RIDE-project/donkeycar_bridge/src/dds_bridge.py", line 44, in __init__
+  File "/Users/wchoudhury/Desktop/RIDE-project/donkeycar_bridge/src/dds_bridge.py", line 44, in __init__
     self.visualizer = DonkeycarVisualizer(vehicle_id)
                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/home/icarus/school/RIDE-project/donkeycar_bridge/src/visualizer.py", line 34, in __init__
+  File "/Users/wchoudhury/Desktop/RIDE-project/donkeycar_bridge/src/visualizer.py", line 34, in __init__
     cpm.Logging.Instance().set_min_level(cpm.LogLevel.Warn)
     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 AttributeError: 'Logging' object has no attribute 'set_min_level'

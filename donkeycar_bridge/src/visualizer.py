@@ -15,7 +15,8 @@ from PIL import Image
 
 # Import CPM Python bindings
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
-import cpm_py as cpm
+import cpm
+
 
 class DonkeycarVisualizer:
     """Visualizer that sends Donkeycar data to the CPM Lab Control Center"""

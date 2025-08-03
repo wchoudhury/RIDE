@@ -1,0 +1,188 @@
+# AprilTag Localization Configuration
+# This file contains settings for the AprilTag localization and map visualization system
+
+# DDS Communication Settings - RIDE Project Conventions
+dds:
+  # Topic names - match existing RIDE donkeycar_bridge
+  vehicle_state_topic: "vehicle_state_{vehicle_id}"  # e.g., vehicle_state_1
+  vehicle_command_topic: "vehicle_command_{vehicle_id}"  # e.g., vehicle_command_1
+  visualization_topic: "visualization_commands"
+  hlc_ready_topic: "hlc_ready"
+  
+  # Domain ID for DDS communication
+  domain_id: 0
+
+# Camera Configuration - Basler acA2040-90uc from RIDE Hardware Setup
+camera:
+  # Hardware specifications
+  model: "acA2040-90uc"
+  sensor_format: "1 inch"
+  mount: "C-Mount"
+  
+  # Camera calibration parameters - MUST BE CALIBRATED FOR YOUR SETUP
+  # These are placeholder values for Basler acA2040-90uc
+  calibration:
+    fx: 1800.0  # Focal length X (pixels) - estimated for 1" sensor at 2048px width
+    fy: 1800.0  # Focal length Y (pixels) - estimated for 1" sensor at 2048px height
+    cx: 1024.0  # Principal point X (pixels) - center of 2048px width
+    cy: 1024.0  # Principal point Y (pixels) - center of 2048px height
+    k1: 0.0     # Radial distortion coefficient - NEEDS CALIBRATION
+    k2: 0.0     # Radial distortion coefficient - NEEDS CALIBRATION
+    p1: 0.0     # Tangential distortion coefficient - NEEDS CALIBRATION
+    p2: 0.0     # Tangential distortion coefficient - NEEDS CALIBRATION
+  
+  # Camera settings - Basler acA2040-90uc specifications
+  resolution:
+    width: 2048   # Native resolution from documentation
+    height: 2048  # Native resolution from documentation
+  
+  # Frame rate - from documentation
+  fps: 90  # Maximum 90 fps
+  
+  # Lens specifications - Basler C11-0824-12M f8.5mm
+  lens:
+    focal_length_mm: 8.5
+    model: "C11-0824-12M"
+  
+  # Camera mounting height (meters above AprilTags)
+  mounting_height: 2.0
+  
+  # USB 3.0 connection settings
+  connection:
+    type: "USB3"
+    bandwidth_limit: 5000000000  # 5 Gbit/s max
+
+# AprilTag Configuration
+apriltag:
+  # Tag family to detect
+  family: "tag36h11"
+  
+  # Physical size of tags in meters
+  tag_size: 0.1  # 10cm tags
+  
+  # Minimum detection confidence (0.0 - 1.0)
+  min_confidence: 0.3
+  
+  # World coordinates of AprilTags - UPDATE FOR YOUR SETUP
+  # Format: tag_id: [x, y, z] in meters
+  tag_positions:
+    0: [0.0, 0.0, 0.0]    # Origin - bottom left corner
+    1: [2.0, 0.0, 0.0]    # Bottom right corner (2m along X)
+    2: [2.0, 2.0, 0.0]    # Top right corner
+    3: [0.0, 2.0, 0.0]    # Top left corner
+    4: [1.0, 1.0, 0.0]    # Center reference point
+    5: [4.0, 0.0, 0.0]    # Extended track point
+    6: [4.0, 2.0, 0.0]    # Extended corner
+
+# Vehicle Configuration
+vehicle:
+  # Default vehicle ID
+  default_id: 1
+  
+  # Vehicle physical dimensions (meters)
+  length: 0.25
+  width: 0.15
+  
+  # Maximum expected speed (m/s)
+  max_speed: 2.0
+
+# Processing Settings
+processing:
+  # Frame processing rate (Hz)
+  frame_rate: 20
+  
+  # Position publishing rate (Hz) 
+  publish_rate: 10
+  
+  # Position confidence threshold for publishing
+  publish_confidence_threshold: 0.3
+  
+  # Maximum age for position data (seconds)
+  max_position_age: 2.0
+
+# Visualization Settings
+visualization:
+  # Vehicle visualization
+  vehicle:
+    color: [0, 150, 255]  # RGB blue
+    low_confidence_color: [150, 150, 150]  # RGB gray
+    size_scale: 1.0
+  
+  # Path trail visualization
+  path:
+    color: [255, 100, 0]  # RGB orange
+    max_points: 50
+    line_width: 1.5
+  
+  # Confidence indicator
+  confidence:
+    show_indicator: true
+    circle_scale: 0.3
+  
+  # Update rates
+  update_rate: 10  # Hz
+  trail_duration: 2.0  # seconds
+
+# Logging Configuration
+logging:
+  # Log level: DEBUG, INFO, WARN, ERROR
+  level: "INFO"
+  
+  # Position update logging frequency (seconds)
+  position_log_interval: 1.0
+  
+  # Statistics reporting interval (seconds)  
+  stats_interval: 10.0
+
+# Debug Settings
+debug:
+  # Show camera feed with detections
+  show_camera_window: false
+  
+  # Save debug images
+  save_debug_images: false
+  debug_image_dir: "./debug_images"
+  
+  # Verbose AprilTag detection output
+  verbose_detection: false
+  
+  # Print timing information
+  show_timing: false
+
+# Calibration Settings
+calibration:
+  # Camera calibration
+  camera:
+    # Checkerboard dimensions for calibration
+    checkerboard_size: [9, 6]  # [width, height] in squares
+    square_size: 0.025  # Size of each square in meters (2.5cm)
+    
+    # Number of calibration images to capture
+    num_images: 20
+    
+    # Calibration image directory
+    image_dir: "./calibration_images"
+  
+  # Tag position calibration
+  tags:
+    # Reference measurements for tag positioning
+    measurement_tool: "laser_measure"  # or "ruler", "gps"
+    measurement_accuracy: 0.005  # meters (5mm accuracy)
+    
+    # Coordinate system definition
+    origin_tag: 0  # Tag ID to use as coordinate origin
+    x_axis_tag: 1  # Tag ID defining positive X direction
+    
+# Network Settings (for future physical car integration)
+network:
+  # Default car connection settings
+  car:
+    default_port: 8887
+    timeout: 5.0
+    protocol: "http"  # or "mqtt"
+  
+  # MQTT settings (if using MQTT protocol)
+  mqtt:
+    broker: "localhost"
+    port: 1883
+    topic_prefix: "donkey/"

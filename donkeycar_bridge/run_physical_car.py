@@ -91,7 +91,10 @@ def main():
     
     # Import here to avoid module import issues
     from src.physical_car_bridge import PhysicalCarBridge
-    import cpm_py as cpm
+    import sys
+    sys.path.append('src')
+    import cpm
+
     
     print(f"Initializing physical car bridge for vehicle {args.vehicle_id}...")
     config_dict = {

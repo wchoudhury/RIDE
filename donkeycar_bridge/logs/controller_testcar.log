@@ -1,0 +1,3 @@
+usage: circle_controller.py [-h] [--radius RADIUS] [--speed SPEED] vehicle_id
+circle_controller.py: error: argument vehicle_id: invalid int value: 'testcar'
+Warning: Could not import CPM library. Using mock implementation.

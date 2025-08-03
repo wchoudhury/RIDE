@@ -10,7 +10,8 @@ import donkeycar as dk
 
 # Import CPM Python bindings
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
-import cpm_py as cpm
+import cpm
+
 
 def create_donkeycar_parameters(vehicle_ids):
     """Create parameter configurations for Donkeycar vehicles

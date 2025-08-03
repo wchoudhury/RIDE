@@ -17,7 +17,8 @@ sys.path.append(os.path.join(parent_dir, "src"))
 
 # Import our vehicle adapter
 from vehicle_adapter import DonkeycarVehicleAdapter
-import cpm_py as cpm
+import cpm
+
 
 class DonkeycarCircleController:
     """Example high-level controller that makes a Donkeycar drive in a circle"""

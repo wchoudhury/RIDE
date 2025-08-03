@@ -36,7 +36,7 @@ while [ "$#" -gt 0 ]; do
 done
 
 # Path to the RIDE project
-PROJECT_DIR="/home/icarus/school/RIDE-project"
+PROJECT_DIR="/Users/wchoudhury/Desktop/RIDE-project"
 BRIDGE_DIR="${PROJECT_DIR}/donkeycar_bridge"
 LOGS_DIR="${BRIDGE_DIR}/logs"
 

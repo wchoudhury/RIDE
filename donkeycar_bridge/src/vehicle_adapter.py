@@ -11,7 +11,8 @@ import numpy as np
 
 # Import CPM Python bindings
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
-import cpm_py as cpm
+import cpm
+
 
 class DonkeycarVehicleAdapter:
     """Adapter that makes a Donkeycar appear as a CPM Lab vehicle"""

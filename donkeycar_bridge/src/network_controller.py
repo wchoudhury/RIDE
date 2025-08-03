@@ -25,7 +25,8 @@ except ImportError:
 
 # Import CPM Python bindings
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
-import cpm_py as cpm
+import cpm
+
 
 
 class DonkeycarNetworkController:
