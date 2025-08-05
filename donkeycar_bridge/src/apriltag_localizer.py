@@ -5,8 +5,8 @@ Detects AprilTags from camera feed and calculates vehicle position.
 
 import cv2
 import numpy as np
-import apriltag
 import math
+from pupil_apriltags import Detector
 from typing import Dict, List, Tuple, Optional
 
 class AprilTagLocalizer:
@@ -19,8 +19,7 @@ class AprilTagLocalizer:
             tag_map: Dictionary mapping tag IDs to world coordinates {tag_id: (x, y, z)}
         """
         # Initialize AprilTag detector with default options
-        options = apriltag.DetectorOptions(families="tag36h11")
-        self.detector = apriltag.Detector(options)
+        self.detector = Detector(families="tag36h11", nthreads=4, quad_decimate=1.0, quad_sigma=0.0)
         
         # Camera parameters (default values - should be calibrated)
         self.camera_params = camera_params or {
@@ -46,16 +45,21 @@ class AprilTagLocalizer:
         print(f"[AprilTag] Localizer initialized with {len(self.tag_map)} known tags")
     
     def _create_default_tag_map(self) -> Dict[int, Tuple[float, float, float]]:
-        """Create a default tag map for testing"""
-        # Example: tags arranged in a grid around a track
+        """Create a default tag map with 12 perimeter tags and 1 center tag."""
         tag_map = {
-            0: (0.0, 0.0, 0.0),     # Origin tag
-            1: (2.0, 0.0, 0.0),     # 2m along X-axis
-            2: (2.0, 2.0, 0.0),     # Corner tag
-            3: (0.0, 2.0, 0.0),     # Complete the square
-            4: (1.0, 1.0, 0.0),     # Center tag
-            5: (4.0, 0.0, 0.0),     # Extended track
-            6: (4.0, 2.0, 0.0),     # Extended corner
+            0: (0.0, 0.0, 0.0),     # Bottom-left corner
+            1: (2.0, 0.0, 0.0),     # Bottom edge
+            2: (4.0, 0.0, 0.0),     # Bottom-right corner
+            3: (4.0, 2.0, 0.0),     # Right edge
+            4: (4.0, 4.0, 0.0),     # Top-right corner
+            5: (2.0, 4.0, 0.0),     # Top edge
+            6: (0.0, 4.0, 0.0),     # Top-left corner
+            7: (0.0, 2.0, 0.0),     # Left edge
+            8: (1.0, 0.0, 0.0),     # Bottom intermediate
+            9: (3.0, 0.0, 0.0),     # Bottom intermediate
+            10: (3.0, 4.0, 0.0),    # Top intermediate
+            11: (1.0, 4.0, 0.0),    # Top intermediate
+            12: (2.0, 2.0, 0.0),    # Center tag
         }
         return tag_map
     
