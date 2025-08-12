@@ -1,9 +1,15 @@
 [submodule "cpm_lab"]
 	path = cpm_lab
-	url = https://github.com/embedded-software-laboratory/cpm_lab.git
+	url = https://github.com/embedded-software-laboratory/cpm_lab
 [submodule "gym-donkeycar"]
 	path = gym-donkeycar
 	url = https://github.com/tawnkramer/gym-donkeycar
 [submodule "donkeycar"]
 	path = donkeycar
 	url = https://github.com/autorope/donkeycar
+[submodule "Fast-DDS"]
+	path = Fast-DDS
+	url = https://github.com/eProsima/Fast-DDS
+[submodule "yaml-cpp"]
+	path = yaml-cpp
+	url = https://github.com/jbeder/yaml-cpp
